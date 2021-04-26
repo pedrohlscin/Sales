@@ -8,17 +8,8 @@ public class Product {
     private boolean hasBasicTax;
     private String description;
     private BigDecimal value;
-    private BigDecimal amountTaxes;
 
     public Product(){
-    }
-
-    public BigDecimal getAmountTaxes() {
-        return amountTaxes;
-    }
-
-    public void setAmountTaxes(BigDecimal amountTaxes) {
-        this.amountTaxes = amountTaxes;
     }
 
     public boolean isHasBasicTax() {

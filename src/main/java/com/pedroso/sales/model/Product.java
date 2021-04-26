@@ -8,8 +8,19 @@ public class Product {
     private boolean hasBasicTax;
     private String description;
     private BigDecimal value;
+    private BigDecimal tax;
 
     public Product(){
+        this.value = new BigDecimal("0");
+        this.tax = new BigDecimal("0");
+    }
+
+    public BigDecimal getTax() {
+        return tax;
+    }
+
+    public void setTax(BigDecimal tax) {
+        this.tax = tax;
     }
 
     public boolean isHasBasicTax() {

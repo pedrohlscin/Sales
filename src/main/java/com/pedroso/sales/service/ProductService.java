@@ -4,25 +4,30 @@ import com.pedroso.sales.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    public BigDecimal calculateTaxes(List<Product> products){
-        BigDecimal acumulated = new BigDecimal(0);
+    public List<Product> calculateTaxes(List<Product> products){
         BigDecimal onePointOne = new BigDecimal(1.1);
         BigDecimal onePointOFive = new BigDecimal(1.05);
+        MathContext m = new MathContext(2);
 
         for(Product p : products){
             if(p.isHasBasicTax()){
-                acumulated.add(p.getValue().min(p.getValue().multiply(onePointOne)));
+                p.setTax(new BigDecimal(p.getValue().multiply(onePointOne).subtract(p.getValue()).round(m)+ ""));
             }
             if(p.isImported()){
-                acumulated.add(p.getValue().min(p.getValue().multiply(onePointOFive)));
+                p.setTax(new BigDecimal(p.getTax().add(p.getValue().multiply(onePointOFive).subtract(p.getValue()).round(m))+ ""));
             }
         }
+        return products;
+    }
 
-        return acumulated;
+    public BigDecimal roundPointOFive(BigDecimal number, BigDecimal apxPoint, MathContext m){
+        return number.subtract(apxPoint).round(m).add(apxPoint);
     }
 }

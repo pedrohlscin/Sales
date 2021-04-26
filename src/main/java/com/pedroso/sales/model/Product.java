@@ -53,9 +53,9 @@ public class Product {
     private boolean isTaxable(String description) {
         String descriptionLowerCase = description.toLowerCase();
         if(descriptionLowerCase.contains("pill") || descriptionLowerCase.contains("book") || descriptionLowerCase.contains("chocolate")){
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public BigDecimal getValue() {

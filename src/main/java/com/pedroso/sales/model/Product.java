@@ -1,18 +1,23 @@
 package com.pedroso.sales.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class Product {
     private int quantity;
-    private boolean imported;
-    private boolean hasBasicTax;
     private String description;
     private BigDecimal value;
     private BigDecimal tax;
+    private List<TaxTypes> taxes;
 
     public Product(){
         this.value = new BigDecimal("0");
         this.tax = new BigDecimal("0");
+        this.taxes = new ArrayList<>();
     }
 
     public BigDecimal getTax() {
@@ -23,14 +28,6 @@ public class Product {
         this.tax = tax;
     }
 
-    public boolean isHasBasicTax() {
-        return hasBasicTax;
-    }
-
-    public void setHasBasicTax(boolean hasBasicTax) {
-        this.hasBasicTax = hasBasicTax;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -39,24 +36,19 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public boolean isImported() {
-        return imported;
-    }
-
-    public void setImported(boolean imported) {
-        this.imported = imported;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
-        if(description.contains("imported")){
-            setImported(true);
+        String compare = description.toLowerCase();
+        for(TaxTypes type : TaxTypes.values()){
+            if(compare.contains(type.getDescription())){
+                taxes.add(type);
+            }
         }
         if(isTaxable(description)){
-            this.hasBasicTax = true;
+            this.taxes.add(TaxTypes.BASIC);
         }
         this.description = description;
     }
@@ -75,6 +67,10 @@ public class Product {
 
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    public List<TaxTypes> getTaxes() {
+        return taxes;
     }
 }
 

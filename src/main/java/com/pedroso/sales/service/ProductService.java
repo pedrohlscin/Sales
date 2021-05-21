@@ -1,6 +1,7 @@
 package com.pedroso.sales.service;
 
 import com.pedroso.sales.model.Product;
+import com.pedroso.sales.model.TaxTypes;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -11,24 +12,15 @@ import java.util.List;
 public class ProductService {
 
     public List<Product> calculateTaxes(List<Product> products){
-        BigDecimal pointOFive = new BigDecimal("0.05");
-        MathContext m = new MathContext(2);
-
+        BigDecimal taxes = new BigDecimal("0");
         for(Product p : products){
             int tax = 0;
-            if(p.isHasBasicTax()){
-                tax += 10;
+            for(TaxTypes t : p.getTaxes()){
+                tax += t.getValue();
             }
-            if(p.isImported()) {
-                tax += 5;
-            }
-            BigDecimal taxes = roundPointOFive(p.getValue().multiply(new BigDecimal(((float)tax/(float)100)+"")), pointOFive, m);
+            taxes = p.getValue().multiply(new BigDecimal(((float)tax/(float)100)+""));
             p.setTax(taxes);
         }
         return products;
-    }
-
-    public BigDecimal roundPointOFive(BigDecimal number, BigDecimal apxPoint, MathContext m){
-        return number.subtract(apxPoint).round(m).add(apxPoint);
     }
 }

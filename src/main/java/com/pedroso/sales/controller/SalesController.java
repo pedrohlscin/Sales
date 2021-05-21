@@ -17,8 +17,11 @@ import java.util.List;
 @RestController
 public class SalesController {
 
-    @Autowired
     ProductService service;
+
+    public SalesController(ProductService s){
+        this.service = s;
+    }
 
     @PostMapping("/product")
     @ResponseBody

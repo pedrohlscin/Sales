@@ -3,7 +3,7 @@ package com.pedroso.sales.model;
 import java.util.stream.Stream;
 
 public enum TaxTypes {
-    BASIC("basicTax", 10), IMPORTED("imported", 5), MUSIC("music", 20);
+    BASIC("basicTax", 10), IMPORTED("imported", 5), MUSIC("music", 15);
 
     private String description;
     private double value;
